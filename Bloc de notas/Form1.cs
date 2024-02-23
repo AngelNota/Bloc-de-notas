@@ -150,11 +150,16 @@ namespace Bloc_de_notas
         private void buscarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Objeto del formulario 2 (buscador)
-            Form buscador = new Buscador(richTextBox1);
+            Buscador buscador = new Buscador(richTextBox1);
+            buscador.BuscadorCerrado += BuscadorForm_Cerrado; // Suscribirse al evento
             buscador.Show();
             toolStripStatusLabel2.Text = "Buscador abierto";
         }
 
+        private void BuscadorForm_Cerrado(object sender, EventArgs e)
+        {
+            toolStripStatusLabel2.Text = "Buscador cerrado";
+        }
         private void toolStripStatusLabel2_Click(object sender, EventArgs e)
         {
             
@@ -204,19 +209,26 @@ namespace Bloc_de_notas
             {
                 Clipboard.SetText(richTextBox1.SelectedText);
                 richTextBox1.SelectedText = "";
+                toolStripStatusLabel2.Text = "Texto cortado.";
             }
         }
 
         private void copiarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (richTextBox1.SelectionLength > 0)
+            {
                 Clipboard.SetText(richTextBox1.SelectedText);
-        }
+                toolStripStatusLabel2.Text = "Texto copiado.";
+            }
 
+        }
         private void pegarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (Clipboard.ContainsText())
+            {
                 richTextBox1.Paste();
+                toolStripStatusLabel2.Text = "Texto pegado.";
+            }
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
