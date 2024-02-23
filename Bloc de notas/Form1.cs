@@ -13,8 +13,7 @@ namespace Bloc_de_notas
 {
     public partial class Form1 : Form
     {
-        //Objeto del formulario 2 (buscador)
-        Form buscador = new Buscador();
+        
         //Variable bandera que detecta si el archivo ha sido guardado o no
         private bool archivoGuardado = false;
         //Variable que guarda el nombre del archivo
@@ -59,7 +58,7 @@ namespace Bloc_de_notas
 
             if (res == DialogResult.OK)
             {
-                textBox1.Text = File.ReadAllText(od.FileName);
+                richTextBox1.Text = File.ReadAllText(od.FileName);
                 nombreDeArchivo = od.FileName;
                 archivoGuardado = true;
             }
@@ -86,7 +85,7 @@ namespace Bloc_de_notas
             if (!string.IsNullOrEmpty(nombreDeArchivo))
                 try
                 {
-                    File.WriteAllText(nombreDeArchivo, textBox1.Text);
+                    File.WriteAllText(nombreDeArchivo, richTextBox1.Text);
                     cambiosNoGuardados = false;
                     toolStripStatusLabel2.Text = "Archivo guardado exitosamente";
                     return true;
@@ -116,7 +115,7 @@ namespace Bloc_de_notas
             {
                 try
                 {
-                    File.WriteAllText(sd.FileName, textBox1.Text);
+                    File.WriteAllText(sd.FileName, richTextBox1.Text);
                     cambiosNoGuardados = false;
                     toolStripStatusLabel2.Text = "Archivo guardado exitosamente.";
                     // Devuelve true si el archivo se guarda correctamente
@@ -145,11 +144,13 @@ namespace Bloc_de_notas
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            cambiosNoGuardados = true;
+            
         }
 
         private void buscarToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Objeto del formulario 2 (buscador)
+            Form buscador = new Buscador(richTextBox1);
             buscador.Show();
             toolStripStatusLabel2.Text = "Buscador abierto";
         }
@@ -178,7 +179,7 @@ namespace Bloc_de_notas
 
             // Restablece la bandera y crea el nuevo archivo
             cambiosNoGuardados = false;
-            textBox1.Clear();
+            richTextBox1.Clear();
             nombreDeArchivo = "";
             toolStripStatusLabel2.Text = "Nuevo archivo creado.";
         }
@@ -195,6 +196,32 @@ namespace Bloc_de_notas
                     e.Cancel = true; // Cancela el cierre del formulario
                 }
             }
+        }
+
+        private void cortarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (richTextBox1.SelectedText != "")
+            {
+                Clipboard.SetText(richTextBox1.SelectedText);
+                richTextBox1.SelectedText = "";
+            }
+        }
+
+        private void copiarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (richTextBox1.SelectionLength > 0)
+                Clipboard.SetText(richTextBox1.SelectedText);
+        }
+
+        private void pegarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Clipboard.ContainsText())
+                richTextBox1.Paste();
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            cambiosNoGuardados = true;
         }
     }
 }
