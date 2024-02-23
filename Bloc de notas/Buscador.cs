@@ -40,7 +40,7 @@ namespace Bloc_de_notas
 
             if (indice != -1)
             {
-                // Resalta la próxima ocurrencia cambiando el color de fondo
+                // Resalta la próxima palabra o letra cambiando el color de fondo
                 textBoxDelBlocDeNotas.Select(indice, terminoBusqueda.Length);
                 textBoxDelBlocDeNotas.SelectionBackColor = Color.Yellow;
 
