@@ -87,6 +87,7 @@ namespace Bloc_de_notas
                 {
                     File.WriteAllText(nombreDeArchivo, richTextBox1.Text);
                     cambiosNoGuardados = false;
+                    archivoGuardado = true;
                     toolStripStatusLabel2.Text = "Archivo guardado exitosamente";
                     return true;
                 }
@@ -117,6 +118,8 @@ namespace Bloc_de_notas
                 {
                     File.WriteAllText(sd.FileName, richTextBox1.Text);
                     cambiosNoGuardados = false;
+                    archivoGuardado = true;
+                    nombreDeArchivo = sd.FileName;
                     toolStripStatusLabel2.Text = "Archivo guardado exitosamente.";
                     // Devuelve true si el archivo se guarda correctamente
                     return true;
